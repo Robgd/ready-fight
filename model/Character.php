@@ -8,6 +8,11 @@ class Character
     const DIED = false;
 
     /**
+     * @var int
+     */
+    protected $id;
+
+    /**
      * @var bool
      */
     protected $died;
@@ -46,6 +51,15 @@ class Character
 
     public function hydrate(array $character)
     {
+        // [
+        //    "type"=> "Magician",
+        //    "name" => "Caster",
+        //    "life" => "120",
+        //    "strength" => "3",
+        //    "dodge" => "",
+        //    "magic" => "8"
+        // ]
+
         foreach ($character as $key => $value) {
             $method = 'set'.ucfirst($key);
             if (method_exists($this, $method)) {
@@ -63,6 +77,26 @@ class Character
     {
         $this->life = $this->life - $damage;
         $this->died = $this->life <= 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Character
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -184,6 +218,4 @@ class Character
 
         return $this;
     }
-
-
 }

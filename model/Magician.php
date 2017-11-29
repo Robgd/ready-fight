@@ -16,6 +16,15 @@ class Magician extends Character
 
     public function __construct(array $magician)
     {
+        // [
+        //    "type"=> "Magician",
+        //    "name" => "Caster",
+        //    "life" => "120",
+        //    "strength" => "3",
+        //    "dodge" => "",
+        //    "magic" => "8"
+        // ]
+
         $this->hydrate($magician);
         parent::__construct($magician);
     }
@@ -28,7 +37,7 @@ class Magician extends Character
     /**
      * @return int
      */
-    public function getMana(): int
+    public function getMana()
     {
         return $this->mana;
     }
@@ -38,7 +47,7 @@ class Magician extends Character
      *
      * @return Magician
      */
-    public function setMana(int $mana)
+    public function setMana($mana)
     {
         $this->mana = $mana;
 
@@ -48,7 +57,7 @@ class Magician extends Character
     /**
      * @return int
      */
-    public function getMagic(): int
+    public function getMagic()
     {
         return $this->magic;
     }
@@ -58,7 +67,7 @@ class Magician extends Character
      *
      * @return Magician
      */
-    public function setMagic(int $magic)
+    public function setMagic($magic)
     {
         $this->magic = $magic;
 
