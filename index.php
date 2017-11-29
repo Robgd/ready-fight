@@ -1,8 +1,15 @@
 <?php
 
-require 'model/Warrior.php';
-require 'model/Magician.php';
-require 'model/Assassin.php';
+require 'includes.php';
+
+$charManager = new CharManager($con);
+
+$characters = $charManager->getAll();
+
+foreach ($characters as $character) {
+    echo $character->getName().' is a '.get_class($character);
+}
+
 
 
 

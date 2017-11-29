@@ -28,6 +28,26 @@ class CharManager
     }
 
     /**
+     * @return Assassin[]|Magician[]|Assassin[]
+     */
+    public function getAll()
+    {
+        $stmt = $this->con->prepare("SELECT * FROM player");
+        $stmt->execute();
+
+        $charactersArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $charactersObj = [];
+        foreach ($charactersArray as $characterArray) {
+            $class = ucfirst($characterArray['type']);
+
+            $charactersObj[] = new $class($characterArray);
+        }
+
+        return $charactersObj;
+    }
+
+    /**
      * @param Character|Magician|Assassin|Warrior $character
      */
     public function update(Character $character)
