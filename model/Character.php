@@ -1,76 +1,88 @@
 <?php
 
 
-class Characters
+class Character
 {
+    const XP = 1;
     const LEVEL = 1;
-    const XP = 0;
     const DIED = false;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var int
-     */
-    private $strength;
-
-    /**
-     * @var int
-     */
-    private $life;
-
-    /**
-     * @var int
-     */
-    private $experience;
-
-    /**
-     * @var int
-     */
-    private $level;
 
     /**
      * @var bool
      */
-    private $died;
+    protected $died;
 
-    public function __construct(array $char)
+    /**
+     * @var int
+     */
+    protected $life;
+    /**
+     * @var string
+     */
+    protected $name;
+    /**
+     * @var int
+     */
+    protected $strength;
+    /**
+     * @var int
+     */
+    protected $experience;
+    /**
+     * @var int
+     */
+    protected $level;
+
+    /**
+     * @param array $character
+     */
+    public function __construct(array $character)
     {
         $this->experience = self::XP;
         $this->level = self::LEVEL;
         $this->died = self::DIED;
+        $this->hydrate($character);
+    }
 
-        $this->hydrate($char);
+    public function hydrate(array $character)
+    {
+        foreach ($character as $key => $value) {
+            $method = 'set'.ucfirst($key);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
     }
 
     public function hit(Character $char)
     {
-        $damage = 1;
-        $char->getDamage($damage);
+        $char->takeDamage($this->strength);
     }
 
-    public function getDamage($damage)
+    public function takeDamage(int $damage)
     {
         $this->life = $this->life - $damage;
-        if ($this->life <= 0) {
-            $this->setDied(true);
-        }
+        $this->died = $this->life <= 0;
     }
 
-    public function hydrate(array $char)
+    /**
+     * @return int
+     */
+    public function getLife(): int
     {
-        foreach ($char as $key => $value)
-        {
-            $method = 'set'.ucfirst($key);
+        return $this->life;
+    }
 
-            if (method_exists($this, $method))
-            {
-                $this->$method($value);
-            }
-        }
+    /**
+     * @param int $life
+     *
+     * @return Character
+     */
+    public function setLife(int $life)
+    {
+        $this->life = $life;
+
+        return $this;
     }
 
     /**
@@ -116,19 +128,19 @@ class Characters
     /**
      * @return int
      */
-    public function getLife(): int
+    public function getExperience(): int
     {
-        return $this->life;
+        return $this->experience;
     }
 
     /**
-     * @param int $life
+     * @param int $experience
      *
      * @return Character
      */
-    public function setLife(int $life)
+    public function setExperience(int $experience)
     {
-        $this->life = $life;
+        $this->experience = $experience;
 
         return $this;
     }
@@ -154,26 +166,6 @@ class Characters
     }
 
     /**
-     * @return int
-     */
-    public function getExperience(): int
-    {
-        return $this->experience;
-    }
-
-    /**
-     * @param int $experience
-     *
-     * @return Character
-     */
-    public function setExperience(int $experience)
-    {
-        $this->experience = $experience;
-
-        return $this;
-    }
-
-    /**
      * @return bool
      */
     public function isDied(): bool
@@ -192,4 +184,6 @@ class Characters
 
         return $this;
     }
+
+
 }
