@@ -17,7 +17,7 @@ function initPDO(array $params) {
 
 $params = [
     'host' => '127.0.0.1',
-    'dbname' => 'php-wb2',
+    'dbname' => 'ready-fight',
     'user' => 'root',
     'password' => 'root',
     'port' => 8889,
